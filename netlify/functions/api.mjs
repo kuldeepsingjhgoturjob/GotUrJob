@@ -23,7 +23,7 @@ const configured = () => !!(process.env.ADMIN_PASS || process.env.SESSION_SECRET
 const okResume = f => f && typeof f === 'object' && f.size > 0 && f.size <= 4 * 1024 * 1024 && /\.(pdf|docx?)$/i.test(f.name || '');
 const digits = v => S(v, 20).replace(/[^\d+]/g, '');
 const pickJob = b => ({ title: S(b.title, 120), company: S(b.company, 120), city: S(b.city, 80), exp: S(b.exp, 60), salary: S(b.salary, 60), age: S(b.age, 40), education: S(b.education, 80), address: S(b.address, 300), phone: digits(b.phone), pf: !!b.pf, esi: !!b.esi, insurance: !!b.insurance, active: b.active !== false });
-const PREMIUM_PAISE = 9900; // Rs 99 in paise. Amount is fixed on the server, never taken from the browser.
+const PREMIUM_PAISE = 100; // Rs 1 in paise. Amount is fixed on the server, never taken from the browser.
 const rzpBasic = () => 'Basic ' + Buffer.from(process.env.RAZORPAY_KEY_ID + ':' + process.env.RAZORPAY_KEY_SECRET).toString('base64');
 const rzpOn = () => !!(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET);
 const markPaid = (rec, paymentId) => { rec.paid = true; rec.paymentId = S(paymentId, 60); rec.txn = rec.paymentId; if (rec.status === 'unpaid') { rec.status = 'active'; rec.activatedTs = Date.now(); } };
